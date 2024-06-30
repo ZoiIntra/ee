@@ -147,85 +147,87 @@ if game.PlaceId == 2753915549 or game.PlaceId == 4442272183 or game.PlaceId == 7
 				end
 			end
 		end)
-        task.spawn(function()
-            local Data = Combat
-            local Blank = function() end
-            local RigEvent = game:GetService("ReplicatedStorage").RigControllerEvent
-            local Animation = Instance.new("Animation")
-            local RecentlyFired = 0
-            local AttackCD = 0
-            local Controller
-            local lastFireValid = 0
-            local MaxLag = 350
-            fucker = 0.0000007
-            TryLag = 0
-            local resetCD = function()
-                local WeaponName = Controller.currentWeaponModel.Name
-                local Cooldown = {
-                    combat = 0.07
-                }
-                AttackCD = tick() + (fucker and Cooldown[WeaponName:lower()] or fucker or 0.285) + ((TryLag/MaxLag)*0.3)
-                RigEvent.FireServer(RigEvent,"weaponChange",WeaponName)
-                TryLag = TryLag + 0.000000000000000000000000000000000000000000000007
-                task.delay((fucker or 0.285) + (TryLag+0.5/MaxLag)*0.3,function()
-                    TryLag = TryLag - 0.000000000000000000000000000000000000000000000007
-                end)
-            end
-            if not shared.orl then shared.orl = RL.wrapAttackAnimationAsync end
-            if not shared.cpc then shared.cpc = PC.play end
-            if not shared.dnew then shared.dnew = DMG.new end
-            if not shared.attack then shared.attack = RigC.attack end
-            RL.wrapAttackAnimationAsync = function(a,b,c,d,func)
-                if _G.FastAttack then
-                    PC.play = shared.cpc
-                    return shared.orl(a,b,c,65,func)
-                end
-                local Radius = _G.FastAttack or 65
-                if _G.FastAttack and canHits and #canHits > 0 then
-                    PC.play = function() end
-                    a:Play(0.00075,0.01,0.01)
-                    func(canHits)
-                    wait(a.length * 0.5)
-                    a:Stop()
+        local CombatFramework = require(game:GetService("Players").LocalPlayer.PlayerScripts:WaitForChild("CombatFramework"))
+        local CombatFrameworkR = getupvalues(CombatFramework)[2]
+        local RigController = require(game:GetService("Players")["LocalPlayer"].PlayerScripts.CombatFramework.RigController)
+        local RigControllerR = getupvalues(RigController)[2]
+        function CurrentWeapon()
+            local ac = CombatFrameworkR.activeController
+            local ret = ac.blades[1]
+            if not ret then return game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool").Name end
+            pcall(function()
+                while ret.Parent~=game.Players.LocalPlayer.Character do ret=ret.Parent end
+            end)
+            if not ret then return game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool").Name end
+            return ret
+        end
+        function getAllBladeHitsPlayers(Sizes)
+            local Hits = {}
+            local Client = game.Players.LocalPlayer
+            local Characters = game:GetService("Workspace").Characters:GetChildren()
+            for i=1,#Characters do local v = Characters[i]
+                local Human = v:FindFirstChildOfClass("Humanoid")
+                if v.Name ~= game.Players.LocalPlayer.Name and Human and Human.RootPart and Human.Health > 0 and Client:DistanceFromCharacter(Human.RootPart.Position) < Sizes+5 then
+                    table.insert(Hits,Human.RootPart)
                 end
             end
-            
-            while task.wait() do
-                pcall(function()
-                    if #canHits > 0 then
-                        Controller = Data.activeController
-                        if NormalClick then
-                            pcall(task.spawn,Controller.attack,Controller)
-                        end
-                        if Controller and Controller.equipped and (not Char.Busy.Value or not LocalPlayer.PlayerGui.Main.Dialogue.Visible) and Char.Stun.Value == 0 and Controller.currentWeaponModel then
-                            if _G.FastAttack then
-                                if _G.FastAttack and tick() > AttackCD then
-                                    resetCD()
-                                end 
-                                if tick() - lastFireValid > 0.5 then
-                                    Controller.timeToNextAttack = 0
-                                    Controller.increment = 1
-                                    Controller.hitboxMagnitude = 65
-                                    pcall(task.spawn,Controller.attack,Controller)
-                                    lastFireValid = tick()
-                                end
-                                local AID3 = Controller.anims.basic[3]
-                                local AID2 = Controller.anims.basic[2]
-                                local ID = AID3 or AID2
-                                Animation.AnimationId = ID
-                                local Playing = Controller.humanoid:LoadAnimation(Animation)
-                                Playing:Play(0.00075,0.01,0.01)
-                                RigEvent.FireServer(RigEvent,"hit",canHits,AID3 and 1 or 2,"") -- 3 or 2
-                                pcall(Controller.attack)
-                                --AttackSignal:Fire()
-                                delay(.5,function()
-                                    --Playing:Stop()
-                                end)
-                            end
+            return Hits
+        end
+        function getAllBladeHits(Sizes)
+            local Hits = {}
+            local Client = game.Players.LocalPlayer
+            local Enemies = game:GetService("Workspace").Enemies:GetChildren()
+            for i=1,#Enemies do local v = Enemies[i]
+                local Human = v:FindFirstChildOfClass("Humanoid")
+                if Human and Human.RootPart and Human.Health > 0 and Client:DistanceFromCharacter(Human.RootPart.Position) < Sizes+5 then
+                    table.insert(Hits,Human.RootPart)
+                end
+            end
+            return Hits
+        end
+        function AttackFunction()
+            local ac = CombatFrameworkR.activeController
+            if ac and ac.equipped then
+                for indexincrement = 1, 1 do
+                    local bladehit = getAllBladeHits(60)
+                    if #bladehit > 0 then
+                        local AcAttack8 = debug.getupvalue(ac.attack, 5)
+                        local AcAttack9 = debug.getupvalue(ac.attack, 6)
+                        local AcAttack7 = debug.getupvalue(ac.attack, 4)
+                        local AcAttack10 = debug.getupvalue(ac.attack, 7)
+                        local NumberAc12 = (AcAttack8 * 798405 + AcAttack7 * 727595) % AcAttack9
+                        local NumberAc13 = AcAttack7 * 798405
+                        (function()
+                            NumberAc12 = (NumberAc12 * AcAttack9 + NumberAc13) % 1099511627776
+                            AcAttack8 = math.floor(NumberAc12 / AcAttack9)
+                            AcAttack7 = NumberAc12 - AcAttack8 * AcAttack9
+                        end)()
+                        AcAttack10 = AcAttack10 + 1 
+                        debug.setupvalue(ac.attack, 5, AcAttack8)
+                        debug.setupvalue(ac.attack, 6, AcAttack9)
+                        debug.setupvalue(ac.attack, 4, AcAttack7)
+                        debug.setupvalue(ac.attack, 7, AcAttack10)
+                        for k, v in pairs(ac.animator.anims.basic) do
+                            v:Play(0.01,0.01,0.01)
+                        end                 
+                        if game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool") and ac.blades and ac.blades[1] then 
+                            game:GetService("ReplicatedStorage").RigControllerEvent:FireServer("weaponChange",tostring(CurrentWeapon()))
+                            game.ReplicatedStorage.Remotes.Validator:FireServer(math.floor(NumberAc12 / 1099511627776 * 16777215), AcAttack10)
+                            game:GetService("ReplicatedStorage").RigControllerEvent:FireServer("hit", bladehit, indexincrement, "")
                         end
                     end
-                end)
+                end
             end
+        end
+        _G.FastAttack = true
+        spawn(function()
+            pcall(function()
+            while task.wait(0.25) do
+                if _G.FastAttack then
+                    AttackFunction()
+                   end
+                end
+            end)
         end)
 
 	repeat wait(0) until game:IsLoaded()
