@@ -214,13 +214,17 @@ do -- Starter Thread
                     for i=1,#Enemies do local v = Enemies[i]
                         local Human = v:FindFirstChildOfClass("Humanoid")
                         if Human and Human.RootPart and Human.Health > 0 and dist(Human.RootPart.Position) < 65 then
+                            game:GetService'VirtualUser':CaptureController()
+                            game:GetService'VirtualUser':Button1Down(Vector2.new(0,1,0,1))
                             canHits[#canHits+1] = Human.RootPart
                         end
                     end
                     for i=1,#Players do local v = Players[i].Character
                         if not Players[i]:GetAttribute("PvpDisabled") and v and v ~= LocalPlayer.Character then
                             local Human = v:FindFirstChildOfClass("Humanoid")
-                            if Human and Human.RootPart and Human.Health > 0 and dist(Human.RootPart.Position) < 65 then
+                            if Human and Human.RootPart and Human.Health > 0 and dist(Human.RootPart.Position) < 65 thenthen
+                                game:GetService'VirtualUser':CaptureController()
+                                game:GetService'VirtualUser':Button1Down(Vector2.new(0,1,0,1))
                                 canHits[#canHits+1] = Human.RootPart
                             end
                         end
@@ -282,7 +286,9 @@ task.spawn(function()
                     pcall(task.spawn,Controller.attack,Controller)
                 end
                 if Controller and Controller.equipped and (not Char.Busy.Value or not LocalPlayer.PlayerGui.Main.Dialogue.Visible) and Char.Stun.Value == 0 and Controller.currentWeaponModel then
-                    if _G.FastAttack then
+                    if _G.FastAttack thenthen
+                        game:GetService'VirtualUser':CaptureController()
+                        game:GetService'VirtualUser':Button1Down(Vector2.new(0,1,0,1))
                         if _G.FastAttack and tick() > AttackCD then
                             resetCD()
                         end 
@@ -300,7 +306,9 @@ task.spawn(function()
                         local Playing = Controller.humanoid:LoadAnimation(Animation)
                         Playing:Play(0.00075,0.01,0.01)
                         RigEvent.FireServer(RigEvent,"hit",canHits,AID3 and 1 or 2,"") -- 3 or 2
-                        pcall(Controller.attack)
+                        pcall(Controller.attack)then
+                        game:GetService'VirtualUser':CaptureController()
+                        game:GetService'VirtualUser':Button1Down(Vector2.new(0,1,0,1))
                         --AttackSignal:Fire()
                         delay(.5,function()
                             --Playing:Stop()
@@ -853,9 +861,9 @@ end
 		Title2.Position = UDim2.new(0, 95, 0, 10)
 		Title2.Size = UDim2.new(0, 483, 0, 31)
 		Title2.Font = Enum.Font.GothamBold
-		Title2.Text = "   - Stack.top Project"
+		Title2.Text = "        - Stack.top Project"
 		Title2.TextColor3 = Color3.fromRGB(186, 98, 255)
-		Title2.TextSize = 17.000
+		Title2.TextSize = 14.000
 		Title2.TextWrapped = true
 		Title2.TextXAlignment = Enum.TextXAlignment.Left
 		
@@ -4083,7 +4091,7 @@ function GetMaterial(matname)
 		Name = "Home" 
 	})
 	local InfoSection = InfoTab:CreateSection({
-		Name = "Profile",
+		Name = "Information",
 		Side = "Left"
 	})
 	
@@ -4096,7 +4104,7 @@ function GetMaterial(matname)
 		local second = math.floor(gameTime / (60^0)) % 60
 		local fps = workspace:GetRealPhysicsFPS()
 		local Ping = game:GetService("Stats").Network.ServerStatsItem["Data Ping"]:GetValueString()
-		E:Set("\nHello! ," .. game.Players.LocalPlayer.Name .. "\n\nYou're using our script for ".. hour .. " : " .. minute .. " : " .. second .. "\n\nEnjoy our script!! ")
+		E:Set("Hello! ," .. game.Players.LocalPlayer.Name .. "\n\nYou're using our script for ".. hour .. "Hours " .. minute .. "Mins " .. second .. "Sec\n\nEnjoy our script!! ")
 	end
 	task.spawn(function()
 		while task.wait() do
@@ -4105,7 +4113,7 @@ function GetMaterial(matname)
 	end)
 	
 	local CredtSection = InfoTab:CreateSection({
-		Name = "Credit",
+		Name = "",
 		Side = "Left"
 	})
 	CredtSection:AddLabel({
@@ -4126,97 +4134,12 @@ function GetMaterial(matname)
 	})
 	
 	local InfoStatusSection = InfoTab:CreateSection({
-		Name = "Status",
+		Name = "Update Logs",
 		Side = "Right"
 	})
-	
-		local Stats_Moon = InfoStatusSection:AddLabel({
-			Name = "Status Moon : 0/5 🌑"
-		})
-		
-		task.spawn(function()
-			while task.wait() do
-				pcall(function()
-					if W1 or W2  or W3 then
-						if game:GetService("Lighting").FantasySky.MoonTextureId=="http://www.roblox.com/asset/?id=9709149431" or game:GetService("Lighting").Sky.MoonTextureId=="http://www.roblox.com/asset/?id=9709149431" then
-							Stats_Moon:Set("Status Moon : 5/5 🌝")
-						elseif game:GetService("Lighting").FantasySky.MoonTextureId=="http://www.roblox.com/asset/?id=9709149052" or game:GetService("Lighting").Sky.MoonTextureId=="http://www.roblox.com/asset/?id=9709149052" then
-							Stats_Moon:Set("Status Moon : 4/5 🌖")
-						elseif game:GetService("Lighting").FantasySky.MoonTextureId=="http://www.roblox.com/asset/?id=9709143733" or game:GetService("Lighting").Sky.MoonTextureId=="http://www.roblox.com/asset/?id=9709143733" then
-							Stats_Moon:Set("Status Moon : 3/5 🌗")
-						elseif game:GetService("Lighting").FantasySky.MoonTextureId=="http://www.roblox.com/asset/?id=9709150086" or game:GetService("Lighting").Sky.MoonTextureId=="http://www.roblox.com/asset/?id=9709150086" then
-							Stats_Moon:Set("Status Moon : 3/5 🌗")
-						elseif game:GetService("Lighting").FantasySky.MoonTextureId=="http://www.roblox.com/asset/?id=9709150401" or game:GetService("Lighting").Sky.MoonTextureId=="http://www.roblox.com/asset/?id=9709150401" then
-							Stats_Moon:Set("Status Moon : 2/5 🌘")
-						elseif game:GetService("Lighting").FantasySky.MoonTextureId=="http://www.roblox.com/asset/?id=9709149680" or game:GetService("Lighting").Sky.MoonTextureId=="http://www.roblox.com/asset/?id=9709149680" then
-							Stats_MoonFM:Set("Status Moon : 1/5 🌙")
-						elseif game:GetService("Lighting").FantasySky.MoonTextureId=="http://www.roblox.com/asset/?id=9709139597" or game:GetService("Lighting").Sky.MoonTextureId=="http://www.roblox.com/asset/?id=9709139597" then
-							Stats_MoonFM:Set("Status Moon : 1/5 🌙")
-						else
-							Stats_Moon:Set("Status Moon : 0/5 🌑")
-						end
-					else
-						if game:GetService("Lighting").Sky.MoonTextureId=="http://www.roblox.com/asset/?id=9709149431" then
-							Stats_Moon:Set("Status Moon : 5/5 🌝")
-						elseif game:GetService("Lighting").Sky.MoonTextureId=="http://www.roblox.com/asset/?id=9709149052" then
-							Stats_Moon:Set("Status Moon : 4/5 🌖")
-						elseif game:GetService("Lighting").Sky.MoonTextureId=="http://www.roblox.com/asset/?id=9709143733" then
-							Stats_Moon:Set("Status Moon : 3/5 🌗")
-						elseif game:GetService("Lighting").Sky.MoonTextureId=="http://www.roblox.com/asset/?id=9709150086" then
-							Stats_Moon:Set("Status Moon : 3/5 🌗")
-						elseif game:GetService("Lighting").Sky.MoonTextureId=="http://www.roblox.com/asset/?id=9709150401" then
-							Stats_Moon:Set("Status Moon : 2/5 🌘")
-						elseif game:GetService("Lighting").Sky.MoonTextureId=="http://www.roblox.com/asset/?id=9709149680" then
-							Stats_MoonFM:Set("Status Moon : 1/5 🌙")
-						elseif game:GetService("Lighting").Sky.MoonTextureId=="http://www.roblox.com/asset/?id=9709139597" then
-							Stats_MoonFM:Set("Status Moon : 1/5 🌙")
-						else
-							Stats_Moon:Set("Status Moon : 0/5 🌑")
-						end
-					end
-				end)
-			end
-		end)
-			
-		local Mirage_Island_Stats = InfoStatusSection:AddLabel({
-			Name = "Status Mirage Island : "
-		})
-		
-		spawn(function()
-			while wait() do
-				if game:GetService("Workspace")["_WorldOrigin"].Locations:FindFirstChild("Mirage Island") then
-					Mirage_Island_Stats:Set("Status Mirage Island : Found 🟢")
-				else
-					Mirage_Island_Stats:Set("Status Mirage Island : Not Found 🔴")
-				end
-			end
-		end)
-		
-		local Kitsunecheck = InfoStatusSection:AddLabel({
-			Name = "Status Kitsune Island : "
-		})
-		spawn(function()
-			pcall(function()
-				while task.wait() do
-					if game.Workspace._WorldOrigin.Locations:FindFirstChild('Kitsune Island') then
-						Kitsunecheck:Set('Status Mirage Island : Found 🟢') 
-					else
-						Kitsunecheck:Set('Status Mirage Island : Not Found 🔴')
-					end
-				end
-			end)
-		end)
-
-	
-	local Dey_Stats = InfoStatusSection:AddLabel({
-		Name = "Day : "..os.date('%A, %B %d ')
-	})
-	
-	spawn(function()
-		while wait() do
-			Dey_Stats:Set("Day : "..os.date('%A, %B %d '))
-		end
-	end)
+    local Kitsunecheck = InfoStatusSection:AddLabel({
+        Name = "Status Kitsune Island : "
+    })
 
 	local MainTab = PepsisWorld:CreateTab({
 		Name = "General"
@@ -7788,7 +7711,7 @@ end)
 	end)
 
 	local ItemsTab = PepsisWorld:CreateTab({
-		Name = "Items"
+		Name = "Auto"
 	}) 
 	if W3 then
 	local HallowSythe = ItemsTab:CreateSection({
