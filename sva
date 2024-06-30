@@ -250,9 +250,9 @@ task.spawn(function()
         }
         AttackCD = tick() + (fucker and Cooldown[WeaponName:lower()] or fucker or 0.285) + ((TryLag/MaxLag)*0.3)
         RigEvent.FireServer(RigEvent,"weaponChange",WeaponName)
-        TryLag = TryLag + 1
+        TryLag += 1
         task.delay((fucker or 0.285) + (TryLag+0.5/MaxLag)*0.3,function()
-            TryLag = TryLag - 1
+            TryLag -= 1
         end)
     end
     if not shared.orl then shared.orl = RL.wrapAttackAnimationAsync end
@@ -2074,7 +2074,6 @@ end
 						UIStroke96.LineJoinMode = Enum.LineJoinMode.Round
 						UIStroke96.Color = _G.Color
 						UIStroke96.Transparency = 1
-	Fast
 						for i, v in pairs(Scroll_Items:GetChildren()) do
 							if v.Name == default then
 								TweenService:Create(
