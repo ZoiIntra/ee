@@ -222,7 +222,7 @@ do -- Starter Thread
                     for i=1,#Players do local v = Players[i].Character
                         if not Players[i]:GetAttribute("PvpDisabled") and v and v ~= LocalPlayer.Character then
                             local Human = v:FindFirstChildOfClass("Humanoid")
-                            if Human and Human.RootPart and Human.Health > 0 and dist(Human.RootPart.Position) < 65 thenthen
+                            if Human and Human.RootPart and Human.Health > 0 and dist(Human.RootPart.Position) < 65 then
                                 game:GetService'VirtualUser':CaptureController()
                                 game:GetService'VirtualUser':Button1Down(Vector2.new(0,1,0,1))
                                 canHits[#canHits+1] = Human.RootPart
@@ -286,7 +286,7 @@ task.spawn(function()
                     pcall(task.spawn,Controller.attack,Controller)
                 end
                 if Controller and Controller.equipped and (not Char.Busy.Value or not LocalPlayer.PlayerGui.Main.Dialogue.Visible) and Char.Stun.Value == 0 and Controller.currentWeaponModel then
-                    if _G.FastAttack thenthen
+                    if _G.FastAttack then
                         game:GetService'VirtualUser':CaptureController()
                         game:GetService'VirtualUser':Button1Down(Vector2.new(0,1,0,1))
                         if _G.FastAttack and tick() > AttackCD then
