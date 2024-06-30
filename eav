@@ -306,7 +306,7 @@ task.spawn(function()
                         local Playing = Controller.humanoid:LoadAnimation(Animation)
                         Playing:Play(0.00075,0.01,0.01)
                         RigEvent.FireServer(RigEvent,"hit",canHits,AID3 and 1 or 2,"") -- 3 or 2
-                        pcall(Controller.attack)then
+                        pcall(Controller.attack)
                         game:GetService'VirtualUser':CaptureController()
                         game:GetService'VirtualUser':Button1Down(Vector2.new(0,1,0,1))
                         --AttackSignal:Fire()
