@@ -838,8 +838,8 @@ end
 		Title.BackgroundTransparency = 1.000
 		Title.Position = UDim2.new(0, 45, 0, 10)
 		Title.Size = UDim2.new(0, 483, 0, 31)
-		Title.Font = Enum.Font.FredokaOne
-		Title.Text = "Stack"
+		Title.Font = Enum.Font.GothamBold
+		Title.Text = "Stack Hub"
 		Title.TextColor3 = Color3.fromRGB(255, 255, 255)
 		Title.TextSize = 17.000
 		Title.TextWrapped = true
@@ -852,9 +852,9 @@ end
 		Title2.BackgroundTransparency = 1.000
 		Title2.Position = UDim2.new(0, 95, 0, 10)
 		Title2.Size = UDim2.new(0, 483, 0, 31)
-		Title2.Font = Enum.Font.FredokaOne
-		Title2.Text = "Hub | Stack.top Project"
-		Title2.TextColor3 = _G.Color
+		Title2.Font = Enum.Font.GothamBold
+		Title2.Text = "   - Stack.top Project"
+		Title2.TextColor3 = Color3.fromRGB(186, 98, 255)
 		Title2.TextSize = 17.000
 		Title2.TextWrapped = true
 		Title2.TextXAlignment = Enum.TextXAlignment.Left
@@ -878,7 +878,7 @@ end
 		Top.Size = UDim2.new(0, 565, 0, 39)
 		
 		local UICorner_Tab2 = Instance.new("UICorner")
-		UICorner_Tab2.CornerRadius = UDim.new(0, 40)
+		UICorner_Tab2.CornerRadius = UDim.new(0, 5)
 		UICorner_Tab2.Parent = PlayerStatss
 	
 		local ClickFrame = Instance.new("Frame")
@@ -990,12 +990,12 @@ end
 			UICorner_33.Parent = Tab2
 	
 			local UIStroke96 = Instance.new("UIStroke")
-			UIStroke96.Thickness = 1.2
+			UIStroke96.Thickness = 0
 			UIStroke96.Parent = Tab2
 			UIStroke96.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 			UIStroke96.LineJoinMode = Enum.LineJoinMode.Round
 			UIStroke96.Color = _G.Color
-			UIStroke96.Transparency = 0
+			UIStroke96.Transparency = 1
 	
 	
 			ImageLabel.Parent = Tab
@@ -1645,7 +1645,7 @@ end
 						MainToggle_3.BackgroundColor3 = _G.Color
 						MainToggle_3:TweenSize(UDim2.new(0, 28, 0, 28),"In","Linear",0.2,true)
 						MainToggle_3.Image = "http://www.roblox.com/asset/?id=6023426926"
-						UICorner_3.CornerRadius = UDim.new(0, 40)
+						UICorner_3.CornerRadius = UDim.new(0, 5)
 						pcall(callback,true)
 					end
 	
@@ -1659,7 +1659,7 @@ end
 							MainToggle_3.BackgroundColor3 = _G.Color
 							MainToggle_3:TweenSize(UDim2.new(0, 28, 0, 28),"In","Linear",0.2,true)
 							MainToggle_3.Image = "http://www.roblox.com/asset/?id=6023426926"
-							UICorner_3.CornerRadius = UDim.new(0, 40)
+							UICorner_3.CornerRadius = UDim.new(0, 5)
 						end
 					end)
 	
@@ -1673,7 +1673,7 @@ end
 							MainToggle_3.BackgroundColor3 = _G.Color
 							MainToggle_3:TweenSize(UDim2.new(0, 25, 0, 25),"In","Linear",0.2,true)
 							MainToggle_3.Image = "http://www.roblox.com/asset/?id=6023426926"
-							UICorner_3.CornerRadius = UDim.new(0, 40)
+							UICorner_3.CornerRadius = UDim.new(0, 5)
 						end
 					end)
 	
@@ -1689,7 +1689,7 @@ end
 							pcall(callback,true)
 							MainToggle_3.BackgroundColor3 = _G.Color
 							MainToggle_3.Image = "http://www.roblox.com/asset/?id=6023426926"
-							UICorner_3.CornerRadius = UDim.new(0, 40)
+							UICorner_3.CornerRadius = UDim.new(0, 5)
 							MainToggle_3:TweenSize(UDim2.new(0, 29, 0, 29),"In","Linear",0.2,true)
 							wait(0.2)
 							MainToggle_3:TweenSize(UDim2.new(0, 25, 0, 25),"In","Linear",0.2,true)
@@ -4080,7 +4080,7 @@ function GetMaterial(matname)
 	
 	local PepsisWorld = library:Evil()
 	local InfoTab = PepsisWorld:CreateTab({
-		Name = "Information" 
+		Name = "Home" 
 	})
 	local InfoSection = InfoTab:CreateSection({
 		Name = "Profile",
@@ -4096,7 +4096,7 @@ function GetMaterial(matname)
 		local second = math.floor(gameTime / (60^0)) % 60
 		local fps = workspace:GetRealPhysicsFPS()
 		local Ping = game:GetService("Stats").Network.ServerStatsItem["Data Ping"]:GetValueString()
-		E:Set("Username : " .. game.Players.LocalPlayer.Name .. "\nHours: ".. hour .. "Minutes: " .. minute .. "Seconds: " .. second .. "\nFPS: " .. fps .. "\nPing : "..Ping)
+		E:Set("\nHello! ," .. game.Players.LocalPlayer.Name .. "\n\nYou're using our script for ".. hour .. " : " .. minute .. " : " .. second .. "\n\nEnjoy our script!! ")
 	end
 	task.spawn(function()
 		while task.wait() do
@@ -4109,15 +4109,12 @@ function GetMaterial(matname)
 		Side = "Left"
 	})
 	CredtSection:AddLabel({
-		Name = "Copyright © 2024 Stack.top - Project. All Rights Reserved."
-	})
-	local Discord =	CredtSection:AddLabel({
-		Name = "Join Discord Community"
+		Name = "Copyright © 2024 Stack.top - Project.\nAll Rights Reserved."
 	})
 	CredtSection:AddButton({
-		Name = "Copy Link",
+		Name = "Join Discord Community",
 		Callback = function()
-			setclipboard("https://discord.gg/977JQXX82w")
+			setclipboard("https://discord.gg/NCNftkN3pd")
 			game:GetService("StarterGui"):SetCore("SendNotification", {
 				Title = "Stack Hub",
 				Text = "Successfully copied",
