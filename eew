@@ -147,179 +147,86 @@ if game.PlaceId == 2753915549 or game.PlaceId == 4442272183 or game.PlaceId == 7
 				end
 			end
 		end)
---Fast Attack Delta
-local Char = game.Players.LocalPlayer.Character
-local Root = Char.HumanoidRootPart
-local Players = game.Players
-local LocalPlayer = Players.LocalPlayer
-
-local CollectionService = game:GetService("CollectionService")
-repeat 
-    LocalPlayer = Players.LocalPlayer
-    wait()
-until LocalPlayer
-local kkii = require(game.ReplicatedStorage.Util.CameraShaker)
-kkii:Stop()
-local ItsTrue = true or false
-local CurrentAllMob,
-      recentlySpawn,
-      StoredSuccessFully,
-      canHits, RecentCollected,
-      FruitInServer,
-      RecentlyLocationSet,
-      lastequip = {}, 0, 0, {}, 0, {}, 0, tick()
-local PC,
-      RL,
-      DMG, 
-      RigC,
-      Combat = require(LocalPlayer.PlayerScripts.CombatFramework.Particle), require(game:GetService("ReplicatedStorage").CombatFramework.RigLib), require(LocalPlayer.PlayerScripts.CombatFramework.Particle.Damage), getupvalue(require(LocalPlayer.PlayerScripts.CombatFramework.RigController),2), getupvalue(require(LocalPlayer.PlayerScripts.CombatFramework),2)
-
-local UserInputService, RunService, vim, CollectionService, CoreGui = game:GetService("UserInputService")
-    ,game:GetService("RunService")
-    ,game:GetService('VirtualInputManager')
-    ,game:GetService("CollectionService")
-    ,game:GetService("CoreGui")
-local dist = function(a,b,noHeight)
-    if not b then
-        b = Root.Position
-    end
-    return (Vector3.new(a.X,not noHeight and a.Y,a.Z) - Vector3.new(b.X,not noHeight and b.Y,b.Z)).magnitude
-end
-do -- Starter Thread
-    task.spawn(function()
-        local stacking = 0
-        local printCooldown = 0
-        while task.wait(.075) do
-            pcall(function()
-                local nearbymon = false
-                table.clear(CurrentAllMob)
-                table.clear(canHits)
-                local mobs = CollectionService:GetTagged("ActiveRig")
-                for i=1,#mobs do local v = mobs[i]
-                    local Human = v:FindFirstChildOfClass("Humanoid")
-                    if Human and Human.Health > 0 and Human.RootPart and v ~= Char then
-                        local IsPlayer = game.Players:GetPlayerFromCharacter(v)
-                        local IsAlly = IsPlayer and CollectionService:HasTag(IsPlayer,"Ally"..LocalPlayer.Name)
-                        if not IsAlly then
-                            CurrentAllMob[#CurrentAllMob + 1] = v
-                            if not nearbymon and dist(Human.RootPart.Position) < 65 then
-                                nearbymon = true
-                            end
-                        end
-                    end
+        task.spawn(function()
+            local Data = Combat
+            local Blank = function() end
+            local RigEvent = game:GetService("ReplicatedStorage").RigControllerEvent
+            local Animation = Instance.new("Animation")
+            local RecentlyFired = 0
+            local AttackCD = 0
+            local Controller
+            local lastFireValid = 0
+            local MaxLag = 350
+            fucker = 0.0000007
+            TryLag = 0
+            local resetCD = function()
+                local WeaponName = Controller.currentWeaponModel.Name
+                local Cooldown = {
+                    combat = 0.07
+                }
+                AttackCD = tick() + (fucker and Cooldown[WeaponName:lower()] or fucker or 0.285) + ((TryLag/MaxLag)*0.3)
+                RigEvent.FireServer(RigEvent,"weaponChange",WeaponName)
+                TryLag = TryLag + 0.000000000000000000000000000000000000000000000007
+                task.delay((fucker or 0.285) + (TryLag+0.5/MaxLag)*0.3,function()
+                    TryLag = TryLag - 0.000000000000000000000000000000000000000000000007
+                end)
+            end
+            if not shared.orl then shared.orl = RL.wrapAttackAnimationAsync end
+            if not shared.cpc then shared.cpc = PC.play end
+            if not shared.dnew then shared.dnew = DMG.new end
+            if not shared.attack then shared.attack = RigC.attack end
+            RL.wrapAttackAnimationAsync = function(a,b,c,d,func)
+                if _G.FastAttack then
+                    PC.play = shared.cpc
+                    return shared.orl(a,b,c,65,func)
                 end
-                if nearbymon then
-                    local Enemies = workspace.Enemies:GetChildren()
-                    local Players = Players:GetPlayers()
-                    for i=1,#Enemies do local v = Enemies[i]
-                        local Human = v:FindFirstChildOfClass("Humanoid")
-                        if Human and Human.RootPart and Human.Health > 0 and dist(Human.RootPart.Position) < 65 then
-                            canHits[#canHits+1] = Human.RootPart
-                        end
-                    end
-                    for i=1,#Players do local v = Players[i].Character
-                        if not Players[i]:GetAttribute("PvpDisabled") and v and v ~= LocalPlayer.Character then
-                            local Human = v:FindFirstChildOfClass("Humanoid")
-                            if Human and Human.RootPart and Human.Health > 0 and dist(Human.RootPart.Position) < 65 then
-                                canHits[#canHits+1] = Human.RootPart
-                            end
-                        end
-                    end
-                end
-            end)
-        end
-    end)
-end
--- Initialize Fast Attack .
-_G.FastAttack = true
-task.spawn(function()
-    local Data = Combat
-    local Blank = function() end
-    local RigEvent = game:GetService("ReplicatedStorage").RigControllerEvent
-    local Animation = Instance.new("Animation")
-    local RecentlyFired = 0
-    local AttackCD = 0
-    local Controller
-    local lastFireValid = 0
-    local MaxLag = 350
-    fucker = 0.0000007
-    TryLag = 0
-    local resetCD = function()
-        local WeaponName = Controller.currentWeaponModel.Name
-        local Cooldown = {
-            combat = 0.07
-        }
-        AttackCD = tick() + (fucker and Cooldown[WeaponName:lower()] or fucker or 0.285) + ((TryLag/MaxLag)*0.3)
-        RigEvent.FireServer(RigEvent,"weaponChange",WeaponName)
-        TryLag += 1
-        task.delay((fucker or 0.285) + (TryLag+0.5/MaxLag)*0.3,function()
-            TryLag -= 1
-        end)
-    end
-    if not shared.orl then shared.orl = RL.wrapAttackAnimationAsync end
-    if not shared.cpc then shared.cpc = PC.play end
-    if not shared.dnew then shared.dnew = DMG.new end
-    if not shared.attack then shared.attack = RigC.attack end
-    RL.wrapAttackAnimationAsync = function(a,b,c,d,func)
-        if _G.FastAttack then
-            PC.play = shared.cpc
-            return shared.orl(a,b,c,65,func)
-        end
-        local Radius = _G.FastAttack or 65
-        if _G.FastAttack and canHits and #canHits > 0 then
-            PC.play = function() end
-            a:Play(0.00075,0.01,0.01)
-            func(canHits)
-            wait(a.length * 0.5)
-            a:Stop()
-        end
-    end
-    
-    while task.wait() do
-        pcall(function()
-            if #canHits > 0 then
-                Controller = Data.activeController
-                if NormalClick then
-                    pcall(task.spawn,Controller.attack,Controller)
-                end
-                if Controller and Controller.equipped and (not Char.Busy.Value or not LocalPlayer.PlayerGui.Main.Dialogue.Visible) and Char.Stun.Value == 0 and Controller.currentWeaponModel then
-                    if _G.FastAttack then
-                        if _G.FastAttack and tick() > AttackCD then
-                            resetCD()
-                        end 
-                        if tick() - lastFireValid > 0.5 then
-                            Controller.timeToNextAttack = 0
-                            Controller.increment = 1
-                            Controller.hitboxMagnitude = 65
-                            pcall(task.spawn,Controller.attack,Controller)
-                            lastFireValid = tick()
-                        end
-                        local AID3 = Controller.anims.basic[3]
-                        local AID2 = Controller.anims.basic[2]
-                        local ID = AID3 or AID2
-                        Animation.AnimationId = ID
-                        local Playing = Controller.humanoid:LoadAnimation(Animation)
-                        Playing:Play(0.00075,0.01,0.01)
-                        RigEvent.FireServer(RigEvent,"hit",canHits,AID3 and 1 or 2,"") -- 3 or 2
-                        pcall(Controller.attack)
-                        AttackSignal:Fire()
-                        delay(.5,function()
-                            Playing:Stop()
-                        end)
-                    end
+                local Radius = _G.FastAttack or 65
+                if _G.FastAttack and canHits and #canHits > 0 then
+                    PC.play = function() end
+                    a:Play(0.00075,0.01,0.01)
+                    func(canHits)
+                    wait(a.length * 0.5)
+                    a:Stop()
                 end
             end
+            
+            while task.wait() do
+                pcall(function()
+                    if #canHits > 0 then
+                        Controller = Data.activeController
+                        if NormalClick then
+                            pcall(task.spawn,Controller.attack,Controller)
+                        end
+                        if Controller and Controller.equipped and (not Char.Busy.Value or not LocalPlayer.PlayerGui.Main.Dialogue.Visible) and Char.Stun.Value == 0 and Controller.currentWeaponModel then
+                            if _G.FastAttack then
+                                if _G.FastAttack and tick() > AttackCD then
+                                    resetCD()
+                                end 
+                                if tick() - lastFireValid > 0.5 then
+                                    Controller.timeToNextAttack = 0
+                                    Controller.increment = 1
+                                    Controller.hitboxMagnitude = 65
+                                    pcall(task.spawn,Controller.attack,Controller)
+                                    lastFireValid = tick()
+                                end
+                                local AID3 = Controller.anims.basic[3]
+                                local AID2 = Controller.anims.basic[2]
+                                local ID = AID3 or AID2
+                                Animation.AnimationId = ID
+                                local Playing = Controller.humanoid:LoadAnimation(Animation)
+                                Playing:Play(0.00075,0.01,0.01)
+                                RigEvent.FireServer(RigEvent,"hit",canHits,AID3 and 1 or 2,"") -- 3 or 2
+                                pcall(Controller.attack)
+                                --AttackSignal:Fire()
+                                delay(.5,function()
+                                    --Playing:Stop()
+                                end)
+                            end
+                        end
+                    end
+                end)
+            end
         end)
-    end
-end)
-spawn(function()
-    game:GetService("RunService").RenderStepped:Connect(function()
-        if _G.FastAttack == true then
-            game.Players.LocalPlayer.Character.Stun.Value = 0
-            game.Players.LocalPlayer.Character.Busy.Value = false
-        end
-    end)
-end)
 
 	repeat wait(0) until game:IsLoaded()
 	if game:GetService("Players").LocalPlayer.PlayerGui.Main:FindFirstChild("ChooseTeam")  then
