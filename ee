@@ -147,7 +147,7 @@ if game.PlaceId == 2753915549 or game.PlaceId == 4442272183 or game.PlaceId == 7
 				end
 			end
 		end)
-		--Fast Attack Delta
+--Fast Attack Delta
 local Char = game.Players.LocalPlayer.Character
 local Root = Char.HumanoidRootPart
 local Players = game.Players
@@ -214,8 +214,6 @@ do -- Starter Thread
                     for i=1,#Enemies do local v = Enemies[i]
                         local Human = v:FindFirstChildOfClass("Humanoid")
                         if Human and Human.RootPart and Human.Health > 0 and dist(Human.RootPart.Position) < 65 then
-                            game:GetService'VirtualUser':CaptureController()
-                            game:GetService'VirtualUser':Button1Down(Vector2.new(0,1,0,1))
                             canHits[#canHits+1] = Human.RootPart
                         end
                     end
@@ -223,8 +221,6 @@ do -- Starter Thread
                         if not Players[i]:GetAttribute("PvpDisabled") and v and v ~= LocalPlayer.Character then
                             local Human = v:FindFirstChildOfClass("Humanoid")
                             if Human and Human.RootPart and Human.Health > 0 and dist(Human.RootPart.Position) < 65 then
-                                game:GetService'VirtualUser':CaptureController()
-                                game:GetService'VirtualUser':Button1Down(Vector2.new(0,1,0,1))
                                 canHits[#canHits+1] = Human.RootPart
                             end
                         end
@@ -235,6 +231,7 @@ do -- Starter Thread
     end)
 end
 -- Initialize Fast Attack .
+_G.FastAttack = true
 task.spawn(function()
     local Data = Combat
     local Blank = function() end
@@ -287,8 +284,6 @@ task.spawn(function()
                 end
                 if Controller and Controller.equipped and (not Char.Busy.Value or not LocalPlayer.PlayerGui.Main.Dialogue.Visible) and Char.Stun.Value == 0 and Controller.currentWeaponModel then
                     if _G.FastAttack then
-                        game:GetService'VirtualUser':CaptureController()
-                        game:GetService'VirtualUser':Button1Down(Vector2.new(0,1,0,1))
                         if _G.FastAttack and tick() > AttackCD then
                             resetCD()
                         end 
@@ -307,8 +302,6 @@ task.spawn(function()
                         Playing:Play(0.00075,0.01,0.01)
                         RigEvent.FireServer(RigEvent,"hit",canHits,AID3 and 1 or 2,"") -- 3 or 2
                         pcall(Controller.attack)
-                        game:GetService'VirtualUser':CaptureController()
-                        game:GetService'VirtualUser':Button1Down(Vector2.new(0,1,0,1))
                         --AttackSignal:Fire()
                         delay(.5,function()
                             --Playing:Stop()
@@ -861,7 +854,7 @@ end
 		Title2.Position = UDim2.new(0, 95, 0, 10)
 		Title2.Size = UDim2.new(0, 483, 0, 31)
 		Title2.Font = Enum.Font.GothamBold
-		Title2.Text = "        - Stack.top Project"
+		Title2.Text = "          - Stack.top Project"
 		Title2.TextColor3 = Color3.fromRGB(186, 98, 255)
 		Title2.TextSize = 14.000
 		Title2.TextWrapped = true
@@ -4104,7 +4097,7 @@ function GetMaterial(matname)
 		local second = math.floor(gameTime / (60^0)) % 60
 		local fps = workspace:GetRealPhysicsFPS()
 		local Ping = game:GetService("Stats").Network.ServerStatsItem["Data Ping"]:GetValueString()
-		E:Set("Hello! ," .. game.Players.LocalPlayer.Name .. "\n\nYou're using our script for ".. hour .. "Hours " .. minute .. "Mins " .. second .. "Sec\n\nEnjoy our script!! ")
+		E:Set("Hello! ," .. game.Players.LocalPlayer.Name .. "\n\nYou're using our script for ".. hour .. "Hours " .. minute .. "Mins " .. second .. "Sec")
 	end
 	task.spawn(function()
 		while task.wait() do
