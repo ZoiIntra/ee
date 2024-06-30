@@ -302,9 +302,9 @@ task.spawn(function()
                         Playing:Play(0.00075,0.01,0.01)
                         RigEvent.FireServer(RigEvent,"hit",canHits,AID3 and 1 or 2,"") -- 3 or 2
                         pcall(Controller.attack)
-                        --AttackSignal:Fire()
+                        AttackSignal:Fire()
                         delay(.5,function()
-                            --Playing:Stop()
+                            Playing:Stop()
                         end)
                     end
                 end
